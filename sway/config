@@ -1,4 +1,4 @@
-# Default config for sway
+# Default config for xkb_optionssway
 #
 # Copy this to ~/.config/sway/config and edit it to your liking.
 #
@@ -62,6 +62,17 @@ output * bg /usr/share/backgrounds/sway/Sway_Wallpaper_Blue_1920x1080.png fill
 
 input * {
 	xkb_layout "it"
+	# da riconsiderare questo toogle
+	# xkb_options grp:win_rctrl_toggle
+}
+
+#ShurikeyGear input configuration
+input 1241:53255:ShurikeyGear_Keyboard {
+	xkb_layout "it(us)"
+}
+
+input 1241:53255:ShurikeyGear {
+	xkb_layout "it(us)"
 }
 
 ### Key bindings
