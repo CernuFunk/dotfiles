@@ -1,9 +1,23 @@
 {
     "modules-left": ["sway/workspaces", "sway/mode"],
     "modules-center": ["clock" ],
-    "modules-right": ["tray", "custom/onedrive", "pulseaudio", "temperature", "battery", "custom/power", "custom/menu"],
+    "modules-right": ["tray", "custom/onedrive", "pulseaudio", "temperature", "battery", "network", "custom/power", "custom/menu"],
     "sway/mode": {
         "format": "<span style=\"italic\">{}</span>"
+    },
+    "sway/workspaces": {
+           "all-outputs": true,
+               "format": "{icon}",
+               "format-icons": {
+                   "1": "",
+                   "2": "",
+                   "3": "",
+               },
+        "persistent_workspaces": {
+            "1": [],
+	    "2": [],
+	    "3": []
+	}
     },
     "network": {
         "format-wifi": "{essid} ({signalStrength}%) ",
@@ -24,9 +38,9 @@
         "spacing": 10
     },
     "clock": {
-        // "tooltip-format": "<big>{:%Y %B}</big>\n<tt><small>{calendar}</small></tt>",
-        // "format-alt": "{:%Y-%m-%d}"
-		"on-click": "gnome-calendar"
+        "tooltip-format": "<big>{:%Y %B}</big>\n<tt><small>{calendar}</small></tt>",
+         "format-alt": "{:%d-%m-%Y}",
+	//"on-click": "gnome-calendar"
     },
     // "cpu": {
     //     "format": "{usage}% ",
@@ -87,7 +101,7 @@
     // },
 	"custom/power": {
 		"format": "",
-		"on-click": "swaynag -t warning -m 'Power Menu Options' -b 'Logout' 'swaymsg exit' -b 'Restart' 'shutdown -r now' -b 'Shutdown'  'shutdown -h now' --background=#005566 --button-background=#009999 --button-border=#002b33 --border-bottom=#002b33"
+		"on-click": "swaynag -t warning -m 'Power Menu Options' -b 'Logout' 'swaymsg exit' -b 'Restart' 'loginctl reboot' -b 'Shutdown'  'loginctl poweroff' --background=#005566 --button-background=#009999 --button-border=#002b33 --border-bottom=#002b33"
 	},
 	// "custom/example_runscript_3 seconds": {
 	// 	"interval": 3,
