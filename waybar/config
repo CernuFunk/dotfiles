@@ -1,6 +1,6 @@
 {
     "modules-left": ["sway/workspaces", "sway/mode"],
-    "modules-center": ["clock" ],
+    "modules-center": ["cpu", "clock", "memory"],
     "modules-right": ["tray", "custom/onedrive", "pulseaudio", "temperature", "battery", "network", "custom/power", "custom/menu"],
     "sway/mode": {
         "format": "<span style=\"italic\">{}</span>"
@@ -42,13 +42,13 @@
          "format-alt": "{:%d-%m-%Y}",
 	//"on-click": "gnome-calendar"
     },
-    // "cpu": {
-    //     "format": "{usage}% ",
-    //     "tooltip": false
-    // },
-    // "memory": {
-    //     "format": "{}% "
-    // },
+    "cpu": {
+        "format": "{usage}% ",
+        "tooltip": false
+    },
+    "memory": {
+        "format": "{}% "
+    },
 //    "temperature": {
 //        "hwmon-path": "/sys/class/hwmon/hwmon3/temp1_input",
 //        "critical-threshold": 82,
