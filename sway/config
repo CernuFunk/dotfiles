@@ -67,7 +67,11 @@ input * {
 }
 
 #ShurikeyGear input configuration
-input 1241:53255:ShurikeyGear_Keyboard {
+input 1241:53255:ShurikeyGear_Keyboard  {
+	xkb_layout "it(us)"
+}
+
+input 13:0:WK-VD01_Keyboard {
 	xkb_layout "it(us)"
 }
 
