@@ -9,7 +9,7 @@ call plug#end()
 " Remapping
 
 inoremap jk <Esc>
-vnoremap jk <Esc>
+" vnoremap jk <Esc>
 
 
 colorscheme gruvbox
