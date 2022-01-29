@@ -4,6 +4,7 @@ Plug 'morhetz/gruvbox'
 Plug 'jiangmiao/auto-pairs'
 Plug 'vim-airline/vim-airline'
 
+Plug 'rust-lang/rust.vim'
 call plug#end()
 
 " Remapping
