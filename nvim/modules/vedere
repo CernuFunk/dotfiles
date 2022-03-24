@@ -1,0 +1,39 @@
+
+" Rust
+let g:rustfmt_autosave = 1
+
+
+" Use LSP omni-completion in Rust files
+autocmd Filetype rust setlocal omnifunc=v:lua.vim.lsp.omnifunc
+" rustfmt on write using autoformat
+" autocmd BufWrite * :Autoformat
+ 
+" RUST configuration LSP
+lua << EOF
+local nvim_lsp = require'lspconfig'
+ 
+local on_attach = function(client)
+    require'completion'.on_attach(client)
+end
+ 
+nvim_lsp.rust_analyzer.setup({
+    on_attach=on_attach,
+    settings = {
+        ["rust-analyzer"] = {
+            assist = {
+                importGranularity = "module",
+                importPrefix = "by_self",
+            },
+            cargo = {
+                loadOutDirsFromCheck = true
+            },
+            procMacro = {
+                enable = true
+            },
+        }
+    }
+})
+EOF
+ 
+" Python LSP server
+" lua require'lspconfig'.pylsp.setup{}
