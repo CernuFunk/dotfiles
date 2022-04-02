@@ -10,4 +10,8 @@ Plug 'kyazdani42/nvim-web-devicons'
 " Plug 'jiangmiao/auto-pairs'
 
 Plug 'rust-lang/rust.vim'
+
+" LSP Config
+Plug 'neovim/nvim-lspconfig'
+
 call plug#end()
