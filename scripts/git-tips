@@ -1,0 +1,24 @@
+# Per fare il pull di tutti i branch remoti
+
+
+# for remote in `git branch -r`; do git branch --track ${remote#origin/} $remote; done
+# git fetch --all
+# git pull --all
+
+
+
+
+# Quando fa lo stronzo heroku assieme a git
+
+git push heroku `git subtree split --prefix pythonapp master`:master --force
+You can just run the nested bit first:
+
+git subtree split --prefix pythonapp master
+This will (after a lot of numbers) return a token, e.g.
+
+157a66d050d7a6188f243243264c765f18bc85fb956
+Use this in the containing command, e.g:
+
+git push heroku 157a66d050d7a6188f243243264c765f18bc85fb956:master --force
+
+# Quanto è bello l'opensource e l'aiutasse a vicenda

@@ -1,0 +1,2 @@
+# Check one package
+pacman -Ri [package] or pacman -Si [package]
