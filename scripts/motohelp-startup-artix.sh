@@ -1,9 +1,9 @@
 #!/bin/bash
 
 
-if [[ $(systemctl status mysql | awk  '/Active:/ { print $2}') == "inactive" ]]; then
+if [[ $(rc-service mysql status | awk  '/status:/ { print $3}') == "stopped" ]]; then
 	printf "Startup del server MySQL...\n"
-	systemctl start mysql
+	rc-service mysql start
 	sleep 2
 	#exit 0
 else
@@ -11,9 +11,9 @@ else
 	sleep 1
 fi
 
-if [[ $(systemctl status redis | awk  '/Active:/ { print $2}') == "inactive" ]]; then
+if [[ $(rc-service redis status | awk  '/status:/ { print $3}') == "stopped" ]]; then
 	printf "Startup del servizio Redis...\n"
-	systemctl start redis
+	rc-service redis start 
 	sleep 2
 	#exit 0
 else
