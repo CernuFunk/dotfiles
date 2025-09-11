@@ -1,9 +1,9 @@
 #!/bin/bash
 
 
-if [[ $(rc-service mysql status | awk  '/status:/ { print $3}') == "stopped" ]]; then
+if [[ $(rc-service mysql status | awk  '/ERROR!/ { print $3" "$4" "$5}') == "is not running" ]]; then
 	printf "Startup del server MySQL...\n"
-	rc-service mysql start
+	sudo rc-service mysql start
 	sleep 2
 	#exit 0
 else
@@ -13,7 +13,7 @@ fi
 
 if [[ $(rc-service redis status | awk  '/status:/ { print $3}') == "stopped" ]]; then
 	printf "Startup del servizio Redis...\n"
-	rc-service redis start 
+	sudo rc-service redis start 
 	sleep 2
 	#exit 0
 else
