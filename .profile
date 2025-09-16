@@ -13,3 +13,7 @@ export PATH="$VOLTA_HOME/bin:$PATH"
 export PATH="$PATH:$HOME/.rvm/bin"
 
 [[ -s "$HOME/.rvm/scripts/rvm" ]] && source "$HOME/.rvm/scripts/rvm" # Load RVM into a shell session *as a function*
+
+# Set dell'hostname perchè si resetta da solo in automatico ultimamente
+# TODO: sara da rimuoverer in futuro
+exec hostname uroboros
