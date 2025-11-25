@@ -255,5 +255,5 @@ include /etc/sway/config.d/*
 exec mako
 
 
-# Screenshot 
-bindsym $mod+Shift+s exec grim -g "$(slurp)" ~/Pictures/screenshot-$(date +%Y%m%d-%H%M%S).png
+# Screenshot with notification and clipboard copy
+bindsym $mod+Shift+s exec screenshot-notify

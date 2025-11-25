@@ -1,0 +1,39 @@
+#!/bin/bash
+
+# Screenshot script with Mako notification and clipboard copy
+# Usage: screenshot-notify
+# Saves to ~/Pictures/Screenshots and copies path to clipboard
+
+# Directory for screenshots
+SCREENSHOT_DIR="$HOME/Pictures/Screenshots"
+mkdir -p "$SCREENSHOT_DIR"
+
+# Filename with timestamp
+FILENAME="screenshot-$(date +%Y%m%d-%H%M%S).png"
+FILEPATH="$SCREENSHOT_DIR/$FILENAME"
+
+# Take screenshot of selected area
+grim -g "$(slurp)" "$FILEPATH" 2>/dev/null
+
+# Check if screenshot was successful
+if [ $? -eq 0 ]; then
+    # Copy FULL PATH to clipboard (not file:// URI)
+    echo -n "$FILEPATH" | wl-copy
+
+    # Show notification with Mako
+    notify-send -i "$FILEPATH" \
+        "📸 Screenshot salvato" \
+        "$FILENAME\n\n✅ Path copiato negli appunti!\nPremi Ctrl+V per incollare" \
+        -t 5000
+
+    echo "Screenshot saved: $FILEPATH"
+else
+    # Error notification
+    notify-send -u critical \
+        "❌ Screenshot fallito" \
+        "Area non selezionata o errore durante la cattura" \
+        -t 3000
+
+    echo "Screenshot failed" >&2
+    exit 1
+fi
