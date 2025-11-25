@@ -256,4 +256,4 @@ exec mako
 
 
 # Screenshot with notification and clipboard copy
-bindsym $mod+Shift+s exec screenshot-notify
+bindsym $mod+Shift+s exec ~/.local/bin/screenshot-notify
