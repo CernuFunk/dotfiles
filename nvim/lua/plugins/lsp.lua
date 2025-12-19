@@ -12,29 +12,30 @@ return {
       { "antosha417/nvim-lsp-file-operations", config = true },
     },
     config = function()
-      local lspconfig = require("lspconfig")
       local cmp_nvim_lsp = require("cmp_nvim_lsp")
 
-      local keymap = vim.keymap.set
-      local opts = { noremap = true, silent = true }
-
       -- LSP keymaps (activated when LSP attaches)
-      local on_attach = function(client, bufnr)
-        local bufopts = { noremap = true, silent = true, buffer = bufnr }
+      vim.api.nvim_create_autocmd("LspAttach", {
+        group = vim.api.nvim_create_augroup("lsp-attach", { clear = true }),
+        callback = function(args)
+          local bufnr = args.buf
+          local keymap = vim.keymap.set
+          local bufopts = { noremap = true, silent = true, buffer = bufnr }
 
-        keymap("n", "gD", vim.lsp.buf.declaration, vim.tbl_extend("force", bufopts, { desc = "Go to declaration" }))
-        keymap("n", "gd", vim.lsp.buf.definition, vim.tbl_extend("force", bufopts, { desc = "Go to definition" }))
-        keymap("n", "K", vim.lsp.buf.hover, vim.tbl_extend("force", bufopts, { desc = "Hover documentation" }))
-        keymap("n", "gi", vim.lsp.buf.implementation, vim.tbl_extend("force", bufopts, { desc = "Go to implementation" }))
-        keymap("n", "<C-k>", vim.lsp.buf.signature_help, vim.tbl_extend("force", bufopts, { desc = "Signature help" }))
-        keymap("n", "<leader>rn", vim.lsp.buf.rename, vim.tbl_extend("force", bufopts, { desc = "Rename symbol" }))
-        keymap("n", "<leader>ca", vim.lsp.buf.code_action, vim.tbl_extend("force", bufopts, { desc = "Code action" }))
-        keymap("n", "gr", vim.lsp.buf.references, vim.tbl_extend("force", bufopts, { desc = "References" }))
-        keymap("n", "<leader>d", vim.diagnostic.open_float, vim.tbl_extend("force", bufopts, { desc = "Line diagnostics" }))
-        keymap("n", "[d", vim.diagnostic.goto_prev, vim.tbl_extend("force", bufopts, { desc = "Previous diagnostic" }))
-        keymap("n", "]d", vim.diagnostic.goto_next, vim.tbl_extend("force", bufopts, { desc = "Next diagnostic" }))
-        keymap("n", "<leader>rs", ":LspRestart<CR>", vim.tbl_extend("force", bufopts, { desc = "Restart LSP" }))
-      end
+          keymap("n", "gD", vim.lsp.buf.declaration, vim.tbl_extend("force", bufopts, { desc = "Go to declaration" }))
+          keymap("n", "gd", vim.lsp.buf.definition, vim.tbl_extend("force", bufopts, { desc = "Go to definition" }))
+          keymap("n", "K", vim.lsp.buf.hover, vim.tbl_extend("force", bufopts, { desc = "Hover documentation" }))
+          keymap("n", "gi", vim.lsp.buf.implementation, vim.tbl_extend("force", bufopts, { desc = "Go to implementation" }))
+          keymap("n", "<C-k>", vim.lsp.buf.signature_help, vim.tbl_extend("force", bufopts, { desc = "Signature help" }))
+          keymap("n", "<leader>rn", vim.lsp.buf.rename, vim.tbl_extend("force", bufopts, { desc = "Rename symbol" }))
+          keymap("n", "<leader>ca", vim.lsp.buf.code_action, vim.tbl_extend("force", bufopts, { desc = "Code action" }))
+          keymap("n", "gr", vim.lsp.buf.references, vim.tbl_extend("force", bufopts, { desc = "References" }))
+          keymap("n", "<leader>d", vim.diagnostic.open_float, vim.tbl_extend("force", bufopts, { desc = "Line diagnostics" }))
+          keymap("n", "[d", vim.diagnostic.goto_prev, vim.tbl_extend("force", bufopts, { desc = "Previous diagnostic" }))
+          keymap("n", "]d", vim.diagnostic.goto_next, vim.tbl_extend("force", bufopts, { desc = "Next diagnostic" }))
+          keymap("n", "<leader>rs", ":LspRestart<CR>", vim.tbl_extend("force", bufopts, { desc = "Restart LSP" }))
+        end,
+      })
 
       -- Diagnostic configuration
       vim.diagnostic.config({
@@ -61,10 +62,12 @@ return {
       -- Enhanced capabilities for autocompletion
       local capabilities = cmp_nvim_lsp.default_capabilities()
 
-      -- Configure individual language servers
+      -- Configure individual language servers using vim.lsp.config
       -- Rust
-      lspconfig.rust_analyzer.setup({
-        on_attach = on_attach,
+      vim.lsp.config.rust_analyzer = {
+        cmd = { "rust-analyzer" },
+        filetypes = { "rust" },
+        root_dir = vim.fs.root(0, { "Cargo.toml" }),
         capabilities = capabilities,
         settings = {
           ["rust-analyzer"] = {
@@ -84,11 +87,13 @@ return {
             },
           },
         },
-      })
+      }
 
       -- Python
-      lspconfig.basedpyright.setup({
-        on_attach = on_attach,
+      vim.lsp.config.basedpyright = {
+        cmd = { "basedpyright-langserver", "--stdio" },
+        filetypes = { "python" },
+        root_dir = vim.fs.root(0, { "pyproject.toml", "setup.py", "requirements.txt" }),
         capabilities = capabilities,
         settings = {
           basedpyright = {
@@ -99,36 +104,45 @@ return {
             },
           },
         },
-      })
+      }
 
       -- TypeScript/JavaScript
-      lspconfig.ts_ls.setup({
-        on_attach = on_attach,
+      vim.lsp.config.ts_ls = {
+        cmd = { "typescript-language-server", "--stdio" },
+        filetypes = { "javascript", "javascriptreact", "typescript", "typescriptreact" },
+        root_dir = vim.fs.root(0, { "package.json", "tsconfig.json", "jsconfig.json" }),
         capabilities = capabilities,
-      })
+      }
 
       -- Ruby
-      lspconfig.solargraph.setup({
-        on_attach = on_attach,
+      vim.lsp.config.solargraph = {
+        cmd = { "solargraph", "stdio" },
+        filetypes = { "ruby" },
+        root_dir = vim.fs.root(0, { "Gemfile", ".git" }),
         capabilities = capabilities,
-      })
+      }
 
       -- Bash
-      lspconfig.bashls.setup({
-        on_attach = on_attach,
+      vim.lsp.config.bashls = {
+        cmd = { "bash-language-server", "start" },
+        filetypes = { "sh", "bash" },
+        root_dir = vim.fs.root(0, { ".git" }),
         capabilities = capabilities,
-      })
+      }
 
       -- Dart/Flutter
-      lspconfig.dartls.setup({
-        on_attach = on_attach,
-        capabilities = capabilities,
+      vim.lsp.config.dartls = {
         cmd = { "dart", "language-server", "--protocol=lsp" },
-      })
+        filetypes = { "dart" },
+        root_dir = vim.fs.root(0, { "pubspec.yaml" }),
+        capabilities = capabilities,
+      }
 
       -- Lua (for Neovim config)
-      lspconfig.lua_ls.setup({
-        on_attach = on_attach,
+      vim.lsp.config.lua_ls = {
+        cmd = { "lua-language-server" },
+        filetypes = { "lua" },
+        root_dir = vim.fs.root(0, { ".luarc.json", ".luacheckrc", ".git" }),
         capabilities = capabilities,
         settings = {
           Lua = {
@@ -143,6 +157,14 @@ return {
             },
           },
         },
+      }
+
+      -- Enable LSP servers automatically on their filetypes
+      vim.api.nvim_create_autocmd("FileType", {
+        pattern = { "rust", "python", "javascript", "javascriptreact", "typescript", "typescriptreact", "ruby", "sh", "bash", "dart", "lua" },
+        callback = function(args)
+          vim.lsp.enable(vim.bo[args.buf].filetype)
+        end,
       })
     end,
   },

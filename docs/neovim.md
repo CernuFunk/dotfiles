@@ -207,6 +207,24 @@ Durante il setup iniziale abbiamo risolto:
 - ✅ Fix: rimosso uso di augroup con clear
 - ✅ Fix: aggiunto pcall per caricamento sicuro dei plugin
 
+### Migrazione a Neovim 0.11 LSP API (Dicembre 2024)
+
+La configurazione LSP è stata migrata dalla vecchia API di `nvim-lspconfig` alla nuova API nativa `vim.lsp.config` introdotta in Neovim 0.11:
+
+**Cambiamenti principali:**
+- ❌ `require('lspconfig')` deprecato (rimosso in nvim-lspconfig v3.0.0)
+- ✅ Migrato a `vim.lsp.config['server_name']`
+- ✅ Sostituito `on_attach` con autocmd globale `LspAttach`
+- ✅ Aggiunto avvio automatico LSP tramite autocmd `FileType` con `vim.lsp.enable()`
+
+**Dettagli tecnici:**
+- La nuova API usa `vim.lsp.config.server_name` per configurare ogni server
+- Ogni configurazione include `cmd`, `filetypes`, `root_dir`, `capabilities` e `settings`
+- I keymaps LSP sono ora gestiti da un autocmd `LspAttach` globale invece di `on_attach`
+- `root_dir` usa `vim.fs.root()` per trovare la directory root del progetto
+
+Questa migrazione garantisce compatibilità futura e migliori performance con Neovim 0.11+
+
 ## Note
 
 - Format on save è abilitato di default
