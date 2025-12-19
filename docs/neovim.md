@@ -204,8 +204,10 @@ Treesitter textobjects permette di selezionare e navigare nel codice in modo int
 Durante il setup iniziale abbiamo risolto:
 - ❌ Errore `E1155` in syntax.vim causato da `augroup` con `clear = true`
 - ❌ Conflitto ordine di caricamento treesitter-textobjects
+- ❌ Race condition nel caricamento di nvim-treesitter-textobjects
 - ✅ Fix: rimosso uso di augroup con clear
 - ✅ Fix: aggiunto pcall per caricamento sicuro dei plugin
+- ✅ Fix: integrata configurazione textobjects nel setup principale di treesitter
 
 ### Migrazione a Neovim 0.11 LSP API (Dicembre 2024)
 

@@ -60,22 +60,6 @@ return {
         autotag = {
           enable = true,
         },
-      })
-    end,
-  },
-
-  -- Treesitter textobjects (must load after treesitter is ready)
-  {
-    "nvim-treesitter/nvim-treesitter-textobjects",
-    dependencies = "nvim-treesitter/nvim-treesitter",
-    event = "BufReadPost",
-    config = function()
-      local status_ok, configs = pcall(require, "nvim-treesitter.configs")
-      if not status_ok then
-        return
-      end
-
-      configs.setup({
         textobjects = {
           select = {
             enable = true,
@@ -111,7 +95,18 @@ return {
           },
         },
       })
+
+      -- Carica textobjects dopo che treesitter è configurato
+      vim.schedule(function()
+        require("lazy").load({ plugins = { "nvim-treesitter-textobjects" } })
+      end)
     end,
+  },
+
+  -- Textobjects - caricato manualmente dopo treesitter
+  {
+    "nvim-treesitter/nvim-treesitter-textobjects",
+    lazy = true,
   },
 
   -- Context showing (shows current function/class at top)
