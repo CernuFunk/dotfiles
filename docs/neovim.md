@@ -224,6 +224,7 @@ La configurazione LSP è stata migrata dalla vecchia API di `nvim-lspconfig` all
 - Ogni configurazione include `cmd`, `filetypes`, `root_dir`, `capabilities` e `settings`
 - I keymaps LSP sono ora gestiti da un autocmd `LspAttach` globale invece di `on_attach`
 - `root_dir` usa `vim.fs.root()` per trovare la directory root del progetto
+- Diagnostic signs ora usano `vim.diagnostic.config({ signs = { text = {...} } })` invece di `sign_define()`
 
 Questa migrazione garantisce compatibilità futura e migliori performance con Neovim 0.11+
 
