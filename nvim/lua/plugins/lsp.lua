@@ -194,8 +194,8 @@ return {
           "ts_ls",
           "solargraph",
           "bashls",
-          "dartls",
           "lua_ls",
+          -- dartls deve essere installato manualmente tramite :Mason
         },
         automatic_installation = true,
       })
