@@ -53,7 +53,7 @@ return {
       local lint = require("lint")
 
       lint.linters_by_ft = {
-        python = { "pylint" },
+        -- python = { "ruff" },  -- abilitare dopo aver installato ruff
         javascript = { "eslint_d" },
         typescript = { "eslint_d" },
         javascriptreact = { "eslint_d" },

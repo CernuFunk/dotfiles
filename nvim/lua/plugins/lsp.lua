@@ -2,6 +2,8 @@
 -- ║                LSP Configuration                          ║
 -- ╚═══════════════════════════════════════════════════════════╝
 
+local python_helpers = require("helpers.python")
+
 return {
   -- LSP Config
   {
@@ -95,6 +97,21 @@ return {
         filetypes = { "python" },
         root_dir = vim.fs.root(0, { "pyproject.toml", "setup.py", "requirements.txt" }),
         capabilities = capabilities,
+        on_init = function(client)
+          local root = client.config.root_dir
+          local python_path = python_helpers.get_python_path(root)
+          local venv_path, venv_name = python_helpers.get_venv_info(root)
+          client.settings = vim.tbl_deep_extend("force", client.settings, {
+            python = {
+              pythonPath = python_path,
+              venvPath = venv_path,
+            },
+            basedpyright = {
+              venv = venv_name,
+            },
+          })
+          client:notify("workspace/didChangeConfiguration", { settings = client.settings })
+        end,
         settings = {
           basedpyright = {
             analysis = {

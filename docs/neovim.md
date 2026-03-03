@@ -12,6 +12,8 @@ nvim/
 │   │   ├── options.lua      # Opzioni di Vim
 │   │   ├── keymaps.lua      # Mappature tasti
 │   │   └── autocmds.lua     # Autocomandi
+│   ├── helpers/
+│   │   └── python.lua       # Helper per rilevamento interprete Python
 │   └── plugins/
 │       ├── init.lua         # Setup lazy.nvim
 │       ├── ui.lua           # UI (tema, statusline, file explorer)
@@ -227,6 +229,19 @@ La configurazione LSP è stata migrata dalla vecchia API di `nvim-lspconfig` all
 - Diagnostic signs ora usano `vim.diagnostic.config({ signs = { text = {...} } })` invece di `sign_define()`
 
 Questa migrazione garantisce compatibilità futura e migliori performance con Neovim 0.11+
+
+### Rilevamento dinamico interprete Python
+
+LSP (basedpyright) e DAP usano un helper condiviso (`helpers/python.lua`) per rilevare automaticamente l'interprete Python corretto. L'ordine di ricerca è:
+
+1. `$VIRTUAL_ENV/bin/python` — venv attivo nella shell
+2. `.venv/bin/python` — venv nella root del progetto
+3. `venv/bin/python` — venv nella root del progetto
+4. `poetry env info` — Poetry con venv esterno (es. `~/.cache/pypoetry/virtualenvs/`)
+5. `pyenv which python` — se pyenv è installato
+6. `python3` — fallback di sistema
+
+Basedpyright riceve `pythonPath`, `venvPath` e `venv` tramite `on_init` (non `before_init`, che non funziona per un problema di riferimenti alle tabelle in Neovim). I settings vengono inviati al server con `workspace/didChangeConfiguration`.
 
 ## Note
 

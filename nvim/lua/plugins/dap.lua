@@ -71,9 +71,11 @@ return {
 
       -- DAP configurations for different languages
       -- Python
+      local get_python_path = require("helpers.python").get_python_path
+
       dap.adapters.python = {
         type = "executable",
-        command = "python",
+        command = get_python_path(),
         args = { "-m", "debugpy.adapter" },
       }
 
@@ -83,9 +85,7 @@ return {
           request = "launch",
           name = "Launch file",
           program = "${file}",
-          pythonPath = function()
-            return "/usr/bin/python"
-          end,
+          pythonPath = get_python_path,
         },
       }
 
@@ -120,7 +120,7 @@ return {
     ft = "python",
     dependencies = "mfussenegger/nvim-dap",
     config = function()
-      require("dap-python").setup("python")
+      require("dap-python").setup(require("helpers.python").get_python_path())
     end,
   },
 }
