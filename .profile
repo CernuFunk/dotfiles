@@ -1,10 +1,10 @@
 # Script per far partire sway alla login
 
 if [ -z $DISPLAY ] && [ "$(tty)" = "/dev/tty1" ]; then
-	export _JAVA_AWT_WM_NONREPARENTING=1
-     # aggiunto -d > sway.log 2>&1 per problema di tastiera non funzionante
-     # da capire se deve rimanere oppure no
-	exec sway -d > sway.log 2>&1
+    export _JAVA_AWT_WM_NONREPARENTING=1
+    # aggiunto -d > sway.log 2>&1 per problema di tastiera non funzionante
+    # da capire se deve rimanere oppure no
+    exec sway -d >sway.log 2>&1
 fi
 export VOLTA_HOME="$HOME/.volta"
 export PATH="$VOLTA_HOME/bin:$PATH"
@@ -14,3 +14,6 @@ export PATH="$PATH:$HOME/.rvm/bin"
 
 [[ -s "$HOME/.rvm/scripts/rvm" ]] && source "$HOME/.rvm/scripts/rvm" # Load RVM into a shell session *as a function*
 
+export PYENV_ROOT="$HOME/.pyenv"
+export PATH="$PYENV_ROOT/bin:$PATH"
+eval "$(pyenv init -)"
