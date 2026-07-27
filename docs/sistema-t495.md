@@ -88,6 +88,7 @@ l'accelerazione del degrado (`sudo tlp-stat -b`).
 | 4a | Disabilitato wait-online al boot | `systemctl disable NetworkManager-wait-online` | ✅ |
 | 4b | Docker on-demand (socket activation) | `disable docker.service` + `enable docker.socket` | ✅ |
 | 5 | Power management via TLP | `enable --now tlp.service` (rimosso auto-cpufreq) | ✅ |
+| 6 | `vm.swappiness` 60 → 10 | `/etc/sysctl.d/99-swappiness.conf` | ✅ |
 
 ### Dettaglio configurazioni di sistema
 
@@ -102,6 +103,12 @@ MaxRetentionSec=4week
 enabled. Il demone parte al primo comando `docker`. ⚠️ I container con
 `restart: always` non ripartono al boot finché non si interagisce con Docker.
 
+**Swappiness** — `/etc/sysctl.d/99-swappiness.conf`:
+```ini
+vm.swappiness=10
+```
+Con 21 GiB di RAM riduce l'uso prematuro dello swap su disco (default 60).
+
 ## Manutenzione periodica consigliata
 
 - **Cache pacman**: `sudo paccache -rk2` ogni tanto (o timer `paccache`).
@@ -113,10 +120,10 @@ enabled. Il demone parte al primo comando `docker`. ⚠️ I container con
 
 ## TODO / valutazioni aperte
 
-- [ ] `swappiness=60` è alto con 21 GiB di RAM — valutare `vm.swappiness=10`
-      via `/etc/sysctl.d/`.
 - [ ] Valutare **zram** (swap compresso in RAM) al posto/affianco della
       partizione swap da 8G su disco.
+- [ ] Ripulire eventuali **reti Docker** inutilizzate (`docker network prune`):
+      sono presenti ~10 bridge `br-*` da progetti compose.
 - [ ] `baloo_file` (indexer KDE) usa ~1.3 GiB — disattivabile se non si usa
       la ricerca file di Plasma (`balooctl disable`).
 - [ ] Valutare se **versionare nel repo** i drop-in di sistema
